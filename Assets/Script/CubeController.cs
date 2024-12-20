@@ -21,23 +21,32 @@ public class CubeController : MonoBehaviour
     {
         transform.Translate (this.speed*Time.deltaTime, 0, 0); //Translate関数は、引数に与えた値のぶんだけ現在の位置から移動
                                                                //Time.deltaTimeは前フレームからの経過時間を表します。フレームレートが高ければ小さく、フレームレートが低ければ大きくなります。
-        
-            if (transform.position.x < this.deadLine)
+
+        if (transform.position.x < this.deadLine)
         {
-            GetComponent<AudioSource>().volume = 0;
+          // GetComponent<AudioSource>().volume = 0; 
             Destroy (gameObject);
         }
     }
 
     void OnCollisionEnter2D(Collision2D collision) //Colliderが他のオブジェクトのColliderと接触した時に呼ばれる
     {
-        ColliderVolumeFlg = true;
-        GetComponent<AudioSource>().volume = 1;
-        Debug.Log(this.ColliderVolumeFlg);
+        /* if (ColliderVolumeFlg = true)
+         {
+             GetComponent<AudioSource>().volume = 1;
+             Debug.Log(this.ColliderVolumeFlg);
+         }
 
-        if (collision.gameObject.CompareTag("UnityChan") )
+
+
+         else if (collision.gameObject.CompareTag("UnityChan") || (transform.position.x < this.deadLine))
+         {
+             GetComponent<AudioSource>().volume = 0;
+         }*/
+
+        if (!collision.gameObject.CompareTag("UnityChan"))
         {
-            GetComponent<AudioSource>().volume = 0;
+            GetComponent<AudioSource>().Play(); //単発で音を鳴らす時に良い
         }
     }
 }
